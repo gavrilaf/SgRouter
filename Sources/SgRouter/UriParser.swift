@@ -8,7 +8,7 @@ public struct UriParser {
     public let uri: String
     public let queryParams: [Substring: Substring]
     
-    public init(uri: String) {
+    public init(_ uri: String) {
         self.uri = uri
         
         if let end = uri.index(of: UriParser.questionMark) {

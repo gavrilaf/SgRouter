@@ -1,43 +1,30 @@
 import XCTest
 import SgRouter
 
-fileprivate func readPathComponents(_ parser: UriParser) -> [Substring] {
-    var components = [Substring]()
-    var it = parser.makeIterator()
-    while let s = it.next() {
-        components.append(s)
-    }
-    return components
-}
-
-fileprivate func check(_ uri: String, _ pathComponets: [Substring], _ queryComponents: [Substring: Substring]) {
-    let parser = UriParser(uri: uri)
-    XCTAssertEqual(pathComponets, readPathComponents(parser))
-    XCTAssertEqual(queryComponents, parser.queryParams)
-}
 
 class UriParserTests: XCTestCase {
     
     func testPathes() {
-        check("/", [], [:])
-        check("/////", [], [:])
-        check("/user", ["user"], [:])
-        check("/user/", ["user"], [:])
-        check("//user//", ["user"], [:])
-        check("/user/profile", ["user", "profile"], [:])
-        check("/user/profile/:id", ["user", "profile", ":id"], [:])
-        check("/user/profile/*action", ["user", "profile", "*action"], [:])
-        check("/user/profile/:id/*action", ["user", "profile", ":id", "*action"], [:])
+        UriParser("/").assertUriParsed(expectedPath: [])
+        UriParser("/////").assertUriParsed(expectedPath: [])
+        UriParser("/user").assertUriParsed(expectedPath: ["user"])
+        UriParser("/user").assertUriParsed(expectedPath: ["user"])
+        UriParser("/user/").assertUriParsed(expectedPath: ["user"])
+        UriParser("/user//").assertUriParsed(expectedPath: ["user"])
+        UriParser("/user/profile").assertUriParsed(expectedPath: ["user", "profile"])
+        UriParser("/user/profile/:id").assertUriParsed(expectedPath: ["user", "profile", ":id"])
+        UriParser("/user/profile/*action").assertUriParsed(expectedPath: ["user", "profile", "*action"])
+        UriParser("/user/profile/:id/*action").assertUriParsed(expectedPath: ["user", "profile", ":id", "*action"])
     }
     
     func testQueryParams() {
-        check("query?a=10", ["query"], ["a": "10"])
-        check("query?a=10&b=", ["query"], ["a": "10", "b": ""])
-        check("/user/profile/:id?rewrite=true&verbose=0&level=audit", ["user", "profile", ":id"], ["rewrite": "true", "verbose": "0", "level": "audit"])
+        UriParser("query?a=10").assertUriParsed(expectedPath: ["query"], expectedQuery: ["a": "10"])
+        UriParser("query?a=10&b=").assertUriParsed(expectedPath: ["query"], expectedQuery: ["a": "10", "b": ""])
+        UriParser("/user/profile/:id?rewrite=true&verbose=0&level=audit").assertUriParsed(expectedPath: ["user", "profile", ":id"], expectedQuery: ["rewrite": "true", "verbose": "0", "level": "audit"])
     }
     
     func testIterator() {
-        let uri = UriParser(uri: "/user/profile/vasya/add")
+        let uri = UriParser("/user/profile/vasya/add")
         var expected = ["user", "profile", "vasya", "add"]
         
         for (indx, s) in uri.enumerated() {
@@ -46,21 +33,20 @@ class UriParserTests: XCTestCase {
     }
     
     func testPath() {
-        let uri = UriParser(uri: "src/script.js")
+        let uri = UriParser("src/script.js")
         var it = uri.makeIterator()
         
         XCTAssertEqual("src", it.next())
-        //XCTAssertEqual("src/script.js", it.remainingPath())
         XCTAssertEqual("script.js", it.next())
         XCTAssertEqual("script.js", it.remainingPath())
         
         
-        /*let uri2 = UriParser2(uri: "open/src/script.js")
+        let uri2 = UriParser("open/src/script.js")
         var it2 = uri2.makeIterator()
         
         XCTAssertEqual("open", it2.next())
         XCTAssertEqual("src", it2.next())
-        XCTAssertEqual("src/script.js", it2.remainingPath())*/
+        XCTAssertEqual("src/script.js", it2.remainingPath())
     }
     
     static var allTests = [

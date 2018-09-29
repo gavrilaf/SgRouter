@@ -10,11 +10,10 @@ let package = Package(
         .executable(name: "PerfTest", targets: ["PerfTest"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/antitypical/Result.git", from: "4.0.0"),
         .package(url: "https://github.com/gavrilaf/SwiftPerfTool.git", from: "0.0.2"),
     ],
     targets: [
-        .target(name: "SgRouter", dependencies: ["Result"]),
+        .target(name: "SgRouter", dependencies: []),
         .target(name: "PerfTest", dependencies: ["SgRouter", "SwiftPerfTool"], path: "Sources/Examples/PerfTest"),
         .testTarget(name: "SgRouterTests", dependencies: ["SgRouter"]),
     ]
