@@ -44,7 +44,7 @@ public final class Router<Value>: RouterProtocol {
             current = try current.addChild(name: s)
         }
         
-        current.leaf = (pattern: relativePath, value: value)
+        current.info = (pattern: relativePath, value: value)
     }
     
     public func lookup(uri: String) throws -> RouterResult<Value> {
@@ -74,8 +74,8 @@ public final class Router<Value>: RouterProtocol {
             }
         }
         
-        if let leaf = current.leaf {
-            return RouterResult(pattern: leaf.pattern, value: leaf.value, urlParams: urlParams, queryParams: parsedUri.queryParams)
+        if let info = current.info {
+            return RouterResult(pattern: info.pattern, value: info.value, urlParams: urlParams, queryParams: parsedUri.queryParams)
         }
         
         throw RouterError.notFound(uri)

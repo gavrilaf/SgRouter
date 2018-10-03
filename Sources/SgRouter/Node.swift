@@ -11,7 +11,7 @@ public protocol NodeProtocol {
     var name: Substring { get }
     var type: NodeType { get }
     
-    var leaf: (pattern: String, value: Value)? { get }
+    var info: (pattern: String, value: Value)? { get }
     
     func addChild(name: Substring) throws -> Self
     func getChild(name: Substring) -> Self?
@@ -26,7 +26,7 @@ final public class Node<Value>: NodeProtocol {
     public let name: Substring
     public let type: NodeType
     
-    public var leaf: (pattern: String, value: Value)?
+    public var info: (pattern: String, value: Value)?
     
     var children: [Substring: Node]?
     var wildcardChild: Node?
