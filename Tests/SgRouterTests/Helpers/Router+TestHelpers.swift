@@ -6,8 +6,12 @@ import SgRouter
 // MARK :-
 
 extension RouterResult where T == String {
-    static func testMake(pattern: String = "", value: String, urlParams: [Substring: Substring] = [:], queryParams: [Substring: Substring] = [:]) -> RouterResult<T> {
+    static func testMake(pattern: String, value: String, urlParams: [Substring: Substring] = [:], queryParams: [Substring: Substring] = [:]) -> RouterResult<T> {
         return RouterResult(pattern: pattern, value: value, urlParams: urlParams, queryParams: queryParams)
+    }
+    
+    static func testMake(value: String, urlParams: [Substring: Substring] = [:], queryParams: [Substring: Substring] = [:]) -> RouterResult<T> {
+        return testMake(pattern: value, value: value, urlParams: urlParams, queryParams: queryParams)
     }
 }
 
