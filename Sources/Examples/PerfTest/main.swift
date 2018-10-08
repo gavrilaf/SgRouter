@@ -29,7 +29,7 @@ do {
         { _ = try? router.lookup(uri: "/comments/123456") },
     ]
     
-    let config = SFTConfig(iterations: 5000, trials: trials)
+    let config = SPTConfig(iterations: 5000, trials: trials)
     
     let rs = runMeasure(with: config)
     

@@ -28,7 +28,6 @@ public protocol RouterProtocol {
     func lookup(uri: String) throws -> RouterResult<Value>
 }
 
-
 // MARK:-
 public final class Router<Value>: RouterProtocol {
     

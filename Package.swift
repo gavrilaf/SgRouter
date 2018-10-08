@@ -10,7 +10,7 @@ let package = Package(
         .executable(name: "PerfTest", targets: ["PerfTest"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/gavrilaf/SwiftPerfTool.git", from: "0.0.2"),
+        .package(url: "https://github.com/gavrilaf/SwiftPerfTool.git", from: "0.1.0"),
     ],
     targets: [
         .target(name: "SgRouter", dependencies: []),

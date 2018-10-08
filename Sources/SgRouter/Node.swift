@@ -30,9 +30,8 @@ final public class Node<Value>: NodeProtocol {
     
     var children: [Substring: Node]?
     var wildcardChild: Node?
-    
-    
-    static func make(name: Substring) -> Node {
+
+    public static func make(name: Substring) -> Node {
         switch name.first ?? emptyChar {
         case "*":
             return Node(name: name.dropFirst(), type: .wildcard(true))
@@ -87,4 +86,3 @@ final public class Node<Value>: NodeProtocol {
         return nil
     }
 }
-
